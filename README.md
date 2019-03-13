@@ -21,5 +21,9 @@ Trabalhar em equipe;
 
 Conhecimento em alguma ferramenta de versionamento;
 
+Banco de dados SQLServer;
+
+Mapeamento objeto relacional utilizando Entity Framework;
+
 ## Contratação
 CLT
