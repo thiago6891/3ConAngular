@@ -1,6 +1,4 @@
-## 3Con 
-
-Descrição da vaga
+## Descrição da vaga
 Desenvolvimento de sistemas web, serviços e/ou automações para atender as áreas de negócio dos clientes.
 
 Níveis: Pleno e sênior
