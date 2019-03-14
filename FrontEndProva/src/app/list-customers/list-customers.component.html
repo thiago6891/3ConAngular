@@ -1,0 +1,33 @@
+<br/><br/><br/><br/>
+<br/>
+<a [routerLink]="['/new']" class="btn btn-primary">New </a>
+<br/><br/>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8"  style="width: 90%">
+  
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nome </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="active">
+    <th mat-header-cell *matHeaderCellDef> Ativo ? </th>
+    <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="registerDate">
+    <th mat-header-cell *matHeaderCellDef> Data de registro </th>
+    <td mat-cell *matCellDef="let element">  {{element.registerDate| date:"dd/MM/yyyy"}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> Editar</th>
+    <td mat-cell *matCellDef="let element">  <a [routerLink]="['/edit', {id: element.id}]"  >Editar </a></td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
