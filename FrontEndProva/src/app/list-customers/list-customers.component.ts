@@ -3,8 +3,7 @@ import { CustomerService } from '../services/customer.service';
 
 @Component({
   selector: 'app-list-customers',
-  templateUrl: './list-customers.component.html',
-  styleUrls: ['./list-customers.component.css']
+  templateUrl: './list-customers.component.html'
 })
 export class ListCustomersComponent implements OnInit {
   displayedColumns: string[] = ['name', 'active', 'registerDate', 'id'];
