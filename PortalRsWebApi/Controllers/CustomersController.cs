@@ -35,19 +35,24 @@ namespace PortalRSApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]Customer customers)
+        public IActionResult Post([FromBody]Customer customer)
         {
-            customers.Name = customers.Name.Trim();
-            customers.RegisterDate = DateTime.Today;
+            customer.Name = customer.Name.Trim();
+            customer.RegisterDate = DateTime.Today;
 
-            if (_db.Customers.Count(c => c.Name == customers.Name) >= 1)
+            if (customer.Name.ToLower() == "3con")
             {
-                return BadRequest($"Cliente já existente: {customers.Name}");
+                return BadRequest($"Nome de usuário não permitido.");
             }
 
-            _db.Customers.Add(customers);
+            if (_db.Customers.Count(c => c.Name == customer.Name) >= 1)
+            {
+                return BadRequest($"Cliente já existente: {customer.Name}");
+            }
+
+            _db.Customers.Add(customer);
             _db.SaveChanges();
-            return Json($"Cliente salvo: {customers.Name}");
+            return Json($"Cliente salvo: {customer.Name}");
         }
 
         [HttpPut]

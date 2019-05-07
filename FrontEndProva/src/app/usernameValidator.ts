@@ -9,9 +9,16 @@ export function usernameValidator(customerService: CustomerService): AsyncValida
         Promise<ValidationErrors | null> | Observable<ValidationErrors | null> =>
     {
         return customerService.getCustomers().pipe(map(customers => {
-            if (customers && customers.find(c => c.name === control.value.trim()) !== undefined) {
+            var name = control.value.trim();
+            
+            if (name.toLowerCase() === '3con') {
+                return { usernameNotAllowed: true };
+            }
+            
+            if (customers && customers.find(c => c.name === name) !== undefined) {
                 return { usernameTaken: true };
             }
+            
             return null;
         }));
     }
