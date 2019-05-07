@@ -24,7 +24,7 @@
 
   <ng-container matColumnDef="id">
     <th mat-header-cell *matHeaderCellDef> Editar</th>
-    <td mat-cell *matCellDef="let element">  <a [routerLink]="['/edit', {id: element.id}]"  >Editar </a></td>
+    <td mat-cell *matCellDef="let element">  <a [routerLink]="['/edit']" [queryParams]="{id: element.id}">Editar </a></td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

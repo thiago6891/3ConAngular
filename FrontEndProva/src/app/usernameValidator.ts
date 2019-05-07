@@ -3,8 +3,9 @@ import { NG_ASYNC_VALIDATORS, AsyncValidator, AsyncValidatorFn, ValidationErrors
 import { Directive } from '@angular/core';
 import { CustomerService } from './services/customer.service';
 import { map } from 'rxjs/operators';
+import { Customer } from './customer';
 
-export function usernameValidator(customerService: CustomerService): AsyncValidatorFn {
+export function usernameValidator(customerService: CustomerService, customerBeingEdited: Customer = new Customer()): AsyncValidatorFn {
     return (control: AbstractControl): 
         Promise<ValidationErrors | null> | Observable<ValidationErrors | null> =>
     {
@@ -15,8 +16,8 @@ export function usernameValidator(customerService: CustomerService): AsyncValida
                 return { usernameNotAllowed: true };
             }
             
-            if (customers && customers.find(c => c.name === name) !== undefined) {
-                return { usernameTaken: true };
+            if (customers && customers.find(c => c.name === name && c.name !== customerBeingEdited.name) !== undefined) {
+                return { usernameTaken: name };
             }
             
             return null;

@@ -17,7 +17,7 @@ export class CustomerService {
     return this.http.get(this.configUrl + 'Customers/GetAll');
   }
   
-  getOneCustomer(id: number) {
+  getOneCustomer(id: number): Observable<any> {
     return this.http.get(this.configUrl + `Customers?id=${id}`);
   }
   

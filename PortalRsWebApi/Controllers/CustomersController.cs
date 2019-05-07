@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PortalRSApi.Data;
 using PortalRSApi.Models;
 
 namespace PortalRSApi.Controllers
 {   
-   
+    [EnableCors("SiteCorsPolicy")]
     [Route("api/[controller]")]
     public class CustomersController : Controller
     {
@@ -37,18 +38,12 @@ namespace PortalRSApi.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Customer customer)
         {
-            customer.Name = customer.Name.Trim();
+            if (!TryValidateUsername(customer, out string error))
+            {
+                return BadRequest(error);
+            }
+
             customer.RegisterDate = DateTime.Today;
-
-            if (customer.Name.ToLower() == "3con")
-            {
-                return BadRequest($"Nome de usuário não permitido.");
-            }
-
-            if (_db.Customers.Count(c => c.Name == customer.Name) >= 1)
-            {
-                return BadRequest($"Cliente já existente: {customer.Name}");
-            }
 
             _db.Customers.Add(customer);
             _db.SaveChanges();
@@ -56,11 +51,36 @@ namespace PortalRSApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody]Customer customers)
+        public IActionResult Put([FromBody]Customer customer)
         {
-            _db.Entry(customers).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            if (!TryValidateUsername(customer, out string error))
+            {
+                return BadRequest(error);
+            }
+
+            _db.Entry(customer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _db.SaveChanges();
             return Ok();
+        }
+
+        private bool TryValidateUsername(Customer customer, out string error)
+        {
+            error = "";
+            customer.Name = customer.Name.Trim();
+
+            if (customer.Name.ToLower() == "3con")
+            {
+                error = "Nome de usuário não permitido.";
+                return false;
+            }
+
+            if (_db.Customers.Count(c => c.Name == customer.Name && c.Id != customer.Id) >= 1)
+            {
+                error = $"Cliente já existente: {customer.Name}";
+                return false;
+            }
+
+            return true;
         }
     }
 }

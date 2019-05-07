@@ -11,7 +11,7 @@
                 <input matInput #name formControlName="name" placeholder="Nome" usernameValidator>
             </mat-form-field>
             <div *ngIf="formulario.get('name').errors">
-                <div *ngIf="formulario.get('name').errors.usernameTaken">
+                <div *ngIf="formulario.get('name').errors.usernameTaken === formulario.get('name').value && formulario.get('name').value !== customer.name">
                     Já existe usuário com esse nome.
                 </div>
                 <div *ngIf="formulario.get('name').errors.usernameNotAllowed">
@@ -19,9 +19,10 @@
                 </div>
             </div>
         </div>
+        <input type="checkbox" #active formControlName="active" id="active" name="active">Ativo
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" [disabled]="!formulario.valid" />
+                <input type="submit" [value]="formulario.get('id').value > 0 ? 'Save' : 'Create'" class="btn btn-default" [disabled]="!formulario.valid" />
             </div>
         </div>
     </div>

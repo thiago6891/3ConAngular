@@ -24,6 +24,7 @@ using PortalRSApi.Data.Interfaces;
 using PortalRSApi.Data.Services;
 using System.Globalization;
 using PortalRSApi.Helpers;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace PortalRSApi
 {
@@ -67,7 +68,16 @@ namespace PortalRSApi
             });
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-            services.AddCors();
+            var corsBuilder = new CorsPolicyBuilder();
+            corsBuilder.AllowAnyHeader();
+            corsBuilder.AllowAnyMethod();
+            corsBuilder.AllowAnyOrigin();
+            corsBuilder.AllowCredentials();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
+            });
 
             services.AddMvc();
 
@@ -146,12 +156,7 @@ namespace PortalRSApi
                 });
             });
 
-           
-
-            app.UseCors(builder =>
-                  builder.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod());
+            app.UseCors("SiteCorsPolicy");
 
             app.UseStaticFiles();
 
