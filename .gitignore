@@ -2,3 +2,5 @@ FrontEndProva/node_modules/
 /PortalRsWebApi/obj/
 /PortalRsWebApi/bin/
 /.vscode/
+
+*.code-workspace
