@@ -1,65 +1,23 @@
 
 <br/><br/><br/>
 <h2>Add</h2>
-
-    <form class="form-horizontal" [formGroup]="formulario" novalidate onsub="onSubmit()" >
-    <div >
+    <form class="form-horizontal" [formGroup]="formulario" novalidate (ngSubmit)="onSubmit()" >
+    <div>
         <input type="hidden" #id formControlName="id" name="id" id="id"/>
         <h4>CustomerModel</h4>
         <hr />
         <div class="example-container">
             <mat-form-field>
-                <input matInput #name formControlName="name"  placeholder="Nome">
+                <input matInput #name formControlName="name" placeholder="Nome" usernameValidator>
             </mat-form-field>
-
-
-            <mat-form-field>
-                <input matInput #name formControlName="registerDate"  placeholder="Data de registro">
-            </mat-form-field>
-
-        </div>
-        
-       <!-- <div class="form-group col-md-8">
-            <label for="name" class = "control-label col-md-2">Name</label>
-            <input type="text" #name formControlName="name" class="form-control" id="name"   name="name">
-            
-              <div *ngIf="!name.valid &&  name.touched"
-              class="alert alert-danger">
-           Name is required
-              </div>
-            
-        </div>
-
-        <div class="form-group col-md-10">
-          <label>  Active</label>
-            
-                
-                    <input type="checkbox" class="form-control" id="name"
-                    formControlName="active" name="active"
-                    #active>
-                    
-                 
-        </div>
-
-        <div class="form-group col-md-8">
-            
-            <label class = "control-label col-md-2">Register Date</label>
-            <input type="text" class="form-control" id="registerDate" #registerDate
-             formControlName="registerDate"  name="registerDate">
-            <div >
-              <div *ngIf="!registerDate.valid &&  registerDate.touched"
-              class="alert alert-danger">
-              Register Date is required
-              </div>
+            <div *ngIf="formulario.get('name').errors && formulario.get('name').errors.usernameTaken">
+                Já existe usuário com esse nome.
             </div>
-
         </div>
-    -->
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" [disabled]="!formulario.valid" />
             </div>
         </div>
     </div>
-
 </form>

@@ -7,7 +7,7 @@ namespace PortalRSApi.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<Customers> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                 : base(options)

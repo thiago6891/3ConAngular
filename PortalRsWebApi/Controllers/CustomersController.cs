@@ -10,10 +10,9 @@ namespace PortalRSApi.Controllers
 {   
    
     [Route("api/[controller]")]
-    public class CustomersController :Controller
+    public class CustomersController : Controller
     {
-       protected readonly ApplicationDbContext _db;
-
+        protected readonly ApplicationDbContext _db;
 
         public CustomersController(ApplicationDbContext applicationDbContext)
         {
@@ -27,27 +26,36 @@ namespace PortalRSApi.Controllers
             return Ok( _db.Customers.OrderBy(c => c.Name).ToList());
                 
         }
-        [HttpGet]
 
+        [HttpGet]
         public IActionResult Get(int id)
         {
             var customer = _db.Customers.Find(id);
             return Ok(customer);
         }
+
         [HttpPost]
-        public IActionResult Post([FromBody]Customers customers)
+        public IActionResult Post([FromBody]Customer customers)
         {
+            customers.Name = customers.Name.Trim();
+            customers.RegisterDate = DateTime.Today;
+
+            if (_db.Customers.Count(c => c.Name == customers.Name) >= 1)
+            {
+                return BadRequest($"Cliente já existente: {customers.Name}");
+            }
+
             _db.Customers.Add(customers);
             _db.SaveChanges();
-            return Ok();
+            return Json($"Cliente salvo: {customers.Name}");
         }
+
         [HttpPut]
-        public IActionResult Put([FromBody]Customers customers)
+        public IActionResult Put([FromBody]Customer customers)
         {
             _db.Entry(customers).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _db.SaveChanges();
             return Ok();
         }
-
     }
 }
